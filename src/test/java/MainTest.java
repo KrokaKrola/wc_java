@@ -9,11 +9,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MainTest {
+    private static class TestFile {
+        public static final String bytesCount = "342190";
+
+        public static final String newLinesCount = "7145";
+
+        public static final String charsCount = "339292";
+
+        public static final String wordsCount = "58164";
+
+        public static final String testFilePath = "/com/example/test.txt";
+
+        public static final String newLineDelimiter = "\r\n";
+    }
+
     private final String filePath;
 
+
     private String getTestFileAbsolutePath() {
-        final String testFilePath = "/com/example/test.txt";
-        File file = new File(Objects.requireNonNull(getClass().getResource(testFilePath)).getFile());
+        File file = new File(Objects.requireNonNull(getClass().getResource(TestFile.testFilePath)).getFile());
 
         return file.getAbsolutePath();
     }
@@ -49,7 +63,7 @@ public class MainTest {
         String output = sw.toString();
 
         assertEquals(0, exitCode);
-        assertEquals( "342190" + " " + filePath + "\r\n", output);
+        assertEquals(TestFile.bytesCount + " " + filePath + TestFile.newLineDelimiter, output);
     }
 
     @Test
@@ -63,7 +77,7 @@ public class MainTest {
         String output = sw.toString();
 
         assertEquals(0, exitCode);
-        assertEquals( "7145" + " " + filePath + "\r\n", output);
+        assertEquals(TestFile.newLinesCount + " " + filePath + TestFile.newLineDelimiter, output);
     }
 
     @Test
@@ -77,7 +91,7 @@ public class MainTest {
         String output = sw.toString();
 
         assertEquals(0, exitCode);
-        assertEquals( "339292" + " " + filePath + "\r\n", output);
+        assertEquals(TestFile.charsCount + " " + filePath + TestFile.newLineDelimiter, output);
     }
 
     @Test
@@ -91,7 +105,7 @@ public class MainTest {
         String output = sw.toString();
 
         assertEquals(0, exitCode);
-        assertEquals( "58164" + " " + filePath + "\r\n", output);
+        assertEquals(TestFile.wordsCount + " " + filePath + TestFile.newLineDelimiter, output);
     }
 
     @Test
@@ -105,7 +119,7 @@ public class MainTest {
         String output = sw.toString();
 
         assertEquals(0, exitCode);
-        assertEquals( "7145 58164 342190" + " " + filePath + "\r\n", output);
+        assertEquals(TestFile.newLinesCount + " " + TestFile.wordsCount + " " + TestFile.bytesCount + " " + filePath + TestFile.newLineDelimiter, output);
     }
 
     @Test
@@ -119,7 +133,7 @@ public class MainTest {
         String output = sw.toString();
 
         assertEquals(0, exitCode);
-        assertEquals( "7145 58164 342190 339292" + " " + filePath + "\r\n", output);
+        assertEquals(TestFile.newLinesCount + " " + TestFile.wordsCount + " " + TestFile.bytesCount + " " + TestFile.charsCount + " " + filePath + TestFile.newLineDelimiter, output);
     }
 
     @Test
@@ -135,7 +149,7 @@ public class MainTest {
         String output = sw.toString();
 
         assertEquals(1, exitCode);
-        assertEquals( "Failed to read file" + " " + notExistedFilePath + "\r\n", output);
+        assertEquals("Failed to read file" + " " + notExistedFilePath + TestFile.newLineDelimiter, output);
     }
 
     @Test
@@ -143,7 +157,7 @@ public class MainTest {
         // Capture the original System.in and System.out
         PrintStream originalOut = System.out;
         PrintStream originalErr = System.err;
-        InputStream  originalIn = System.in;
+        InputStream originalIn = System.in;
 
         // Set up a ByteArrayOutputStream to capture the output
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -166,7 +180,7 @@ public class MainTest {
             String output = sw.toString();
 
             assertEquals(0, exitCode);
-            assertEquals( "1 5 29" + "\r\n", output);
+            assertEquals("1 5 29" + TestFile.newLineDelimiter, output);
         } finally {
             // Restore the original System.in, System.out, and System.err
             System.setIn(originalIn);
