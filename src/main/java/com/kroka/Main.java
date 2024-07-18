@@ -39,6 +39,9 @@ public class Main implements Callable<Integer> {
     @Option(names = {"-l", "--lines"}, description = "Print only the newline character counts.")
     private Boolean countLines = false;
 
+    @Spec
+    Model.CommandSpec spec;
+
     public static void main(String... args) {
         int exitCode = new CommandLine(new Main()).execute(args);
         System.exit(exitCode);
@@ -141,11 +144,11 @@ public class Main implements Callable<Integer> {
                 responseList.add(file);
             }
 
-            System.out.println(String.join(" ", responseList));
+            spec.commandLine().getOut().println(String.join(" ", responseList));
 
             return 0;
         } catch (IOException ioException) {
-            System.out.println("Failed to read file " + file);
+            spec.commandLine().getOut().println("Failed to read file " + file);
             return 1;
         }
     }
