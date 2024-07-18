@@ -109,6 +109,20 @@ public class MainTest {
     }
 
     @Test
+    public void testAllOptionsFullNamesAtOnce() {
+        CommandLine cmd = new CommandLine(new Main());
+
+        StringWriter sw = new StringWriter();
+        cmd.setOut(new PrintWriter(sw));
+
+        int exitCode = cmd.execute(filePath, "--bytes", "--words", "--lines", "--chars");
+        String output = sw.toString();
+
+        assertEquals(0, exitCode);
+        assertEquals( "7145 58164 342190 339292" + " " + filePath + "\r\n", output);
+    }
+
+    @Test
     public void testIoException() {
         CommandLine cmd = new CommandLine(new Main());
 
